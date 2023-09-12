@@ -1,0 +1,7 @@
+Images from a CS perspective:
+- Sets of numbers reperesent pixels of an image e.g. [187 41 160]
+- BGR (BlueGreenRed) on pixel colour 
+- opencv to transform the image into an array (intro.py)
+- image.png has a total of 12 pixels
+- opencv is built ontop on numpy
+- can both analyse and generate an image using OpenCV (image.png vs generated_image.png)
