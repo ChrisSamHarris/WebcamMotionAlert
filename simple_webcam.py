@@ -22,7 +22,7 @@ def webcam():
 
         cv2.putText(img=frame, text=time_live, org=(80, 1050),
                     fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=4, color=(57,255,20),
-                    thickness=1, lineType=cv2.LINE_AA)
+                    thickness=2, lineType=cv2.LINE_AA)
         
         streamlit_image.image(frame)
 
