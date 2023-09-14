@@ -20,9 +20,9 @@ def webcam():
         check, frame = camera.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        cv2.putText(img=frame, text=time_live, org=(50, 50),
-                    fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=3, color=(20,100,200),
-                    thickness=2, lineType=cv2.LINE_AA)
+        cv2.putText(img=frame, text=time_live, org=(80, 1050),
+                    fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=4, color=(57,255,20),
+                    thickness=1, lineType=cv2.LINE_AA)
         
         streamlit_image.image(frame)
 
