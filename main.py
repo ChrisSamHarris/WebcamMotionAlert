@@ -40,6 +40,11 @@ while True:
     move_status_ls = move_status_ls[-2:]
 
     if move_status_ls[0] == 1 and move_status_ls[1] == 0:
+        # This occurs once an object leaves the frame
+        # [0,0] = No difference
+        # [0,1] = object enters the frame
+        # [1,1] = new object is still in the frame
+        # [1,0] = Object has left the frame
         send_email()
 
     cv2.imshow("Video", frame)
@@ -51,5 +56,3 @@ while True:
 
 print(first_frame)
 video.release()
-
-

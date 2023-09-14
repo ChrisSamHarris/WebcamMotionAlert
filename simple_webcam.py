@@ -14,7 +14,6 @@ def webcam():
 
     while True:
         if stop:
-            start = placeholder.button('Start Camera', key="start_regen")
             break
         check, frame = camera.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
