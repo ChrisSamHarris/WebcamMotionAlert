@@ -1,5 +1,6 @@
 import cv2
 import streamlit as st 
+from datetime import datetime
 
 st.set_page_config(page_title="Motion Detector", page_icon="📸")
 
@@ -15,15 +16,15 @@ def webcam():
     while True:
         if stop:
             break
+        time_live = datetime.now().strftime("%H:%M:%S")
         check, frame = camera.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        cv2.putText(img=frame, text="Hello", org=(50, 50),
-                    fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=2, color=(20,100,200),
+        cv2.putText(img=frame, text=time_live, org=(50, 50),
+                    fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=3, color=(20,100,200),
                     thickness=2, lineType=cv2.LINE_AA)
         
         streamlit_image.image(frame)
 
 if start:
     webcam()
-    
