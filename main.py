@@ -4,6 +4,7 @@ import cv2
 import time
 from send_email import send_email
 import glob
+import os
 
 video = cv2.VideoCapture(0)
 time.sleep(1)
@@ -11,6 +12,11 @@ time.sleep(1)
 first_frame = None
 move_status_ls = []
 count = 1
+
+def clean_folder():
+    images = glob.glob("images/*.png")
+    for image in images:
+        os.remove(image)
 
 while True:
     move_status = 0
@@ -55,7 +61,10 @@ while True:
         # [0,1] = object enters the frame
         # [1,1] = new object is still in the frame
         # [1,0] = Object has left the frame
-        send_email()
+        send_email(image_to_send)
+        # Trying to address threading as the process of SMTP is causing the application to break^
+        print("email_sent!")
+        clean_folder()
 
     cv2.imshow("Video", frame)
     key = cv2.waitKey(1)
