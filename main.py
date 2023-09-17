@@ -3,16 +3,20 @@ import cv2
 # https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html
 import time
 from send_email import send_email
+import glob
 
 video = cv2.VideoCapture(0)
 time.sleep(1)
 
 first_frame = None
+move_status_ls = []
+count = 1
 
 while True:
     move_status = 0
-    move_status_ls = []
+    
     check, frame = video.read()
+
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray_frame_gau = cv2.GaussianBlur(gray_frame, (21, 21), 0)
 
@@ -35,6 +39,12 @@ while True:
         rectangle = cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 3)
         if rectangle.any():
             move_status = 1
+            cv2.imwrite(f"images/image_{count}.png", frame)
+            count += 1
+            all_images = glob.glob("images/*.png")
+            image_index = int(len(all_images) / 2)
+            image_to_send = all_images[image_index]
+
             
     move_status_ls.append(move_status)
     move_status_ls = move_status_ls[-2:]
