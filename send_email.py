@@ -4,12 +4,13 @@ import imghdr
 from email.message import EmailMessage
 
 def send_email(image_loc):
+    print("Send email function START")
     USERNAME = os.getenv("PY_USERNAME")
     PASSWORD = os.getenv("PY_PASSWORD")
     RECIEVER = os.getenv("PY_USERNAME")
 
     email_message = EmailMessage()
-    email_message['Subject'] = "PythonShowcase"
+    email_message['Subject'] = "Webcam Motion Triggered 👁️"
     email_message['From'] = USERNAME
     email_message['To'] = RECIEVER
 
@@ -25,6 +26,8 @@ def send_email(image_loc):
         # gmail_send.set_debuglevel(1)
         gmail_send.login(USERNAME, PASSWORD)
         gmail_send.send_message(email_message)
+
+    print("Send email function COMPLETE")
 
 if __name__ == "__main__":
     send_email(image_loc="images/image_22.png")

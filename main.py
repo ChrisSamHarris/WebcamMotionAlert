@@ -5,6 +5,7 @@ import time
 from send_email import send_email
 import glob
 import os
+from threading import Thread
 
 video = cv2.VideoCapture(0)
 time.sleep(1)
@@ -14,9 +15,11 @@ move_status_ls = []
 count = 1
 
 def clean_folder():
+    print("Clean folder function started.")
     images = glob.glob("images/*.png")
     for image in images:
         os.remove(image)
+    print("Clean folder function - Complete")
 
 while True:
     move_status = 0
@@ -50,21 +53,26 @@ while True:
             all_images = glob.glob("images/*.png")
             image_index = int(len(all_images) / 2)
             image_to_send = all_images[image_index]
+            print(image_to_send)
 
             
     move_status_ls.append(move_status)
     move_status_ls = move_status_ls[-2:]
 
     if move_status_ls[0] == 1 and move_status_ls[1] == 0:
-        # This occurs once an object leaves the frame
         # [0,0] = No difference
         # [0,1] = object enters the frame
         # [1,1] = new object is still in the frame
         # [1,0] = Object has left the frame
-        send_email(image_to_send)
-        # Trying to address threading as the process of SMTP is causing the application to break^
-        print("email_sent!")
-        clean_folder()
+        # Trying to address threading as the process of SMTP is causing the application to break - Addressing using Threading
+        email_thread = Thread(target=send_email, args=(image_to_send, ))
+        email_thread.daemon = True
+        
+        clean_folder_thread = Thread(target=clean_folder)
+        clean_folder_thread.daemon = True
+
+        email_thread.start()
+        
 
     cv2.imshow("Video", frame)
     key = cv2.waitKey(1)
@@ -73,5 +81,10 @@ while True:
         print("\n⚠️ Program Stopped through application\n")
         break
 
-print(first_frame)
+# print(first_frame)
+
 video.release()
+
+clean_folder_thread.start()
+# Time for the clean_folder function to complete
+time.sleep(2)
